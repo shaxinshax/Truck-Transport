@@ -1,0 +1,122 @@
+{
+  "@@locale": "en",
+  "appTitle": "Driver Registration",
+  "language": "Language",
+  "loginWithPhone": "Phone",
+  "loginWithEmail": "Email",
+  "phone": "Phone number",
+  "phoneHint": "+995 555 123 456",
+  "email": "Email",
+  "password": "Password",
+  "sendCode": "Send code",
+  "codeSent": "We sent an SMS code to {phone}",
+  "smsCode": "SMS code",
+  "verify": "Confirm",
+  "changeNumber": "Change number",
+  "signIn": "Sign in",
+  "signUp": "Create account",
+  "noAccount": "No account yet? Create one",
+  "haveAccount": "Already have an account? Sign in",
+  "checkEmail": "Check your email and confirm your address, then sign in.",
+  "logout": "Sign out",
+  "save": "Save",
+  "saved": "Saved",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "deleteConfirm": "Delete this item?",
+  "required": "Required",
+  "invalidEmail": "Enter a valid email",
+  "invalidPhone": "Enter the number with country code, e.g. +995…",
+  "passwordTooShort": "At least 8 characters",
+  "profile": "Profile",
+  "vehicles": "Vehicles",
+  "documents": "Documents",
+  "personalInfo": "Personal information",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "dateOfBirth": "Date of birth",
+  "citizenship": "Citizenship",
+  "address": "Address",
+  "city": "City",
+  "country": "Country",
+  "driversLicense": "Driver's license",
+  "licenseNumber": "License number",
+  "licenseCategories": "Categories",
+  "licenseCountry": "Issuing country",
+  "issuedAt": "Issue date",
+  "expiresAt": "Expiry date",
+  "passport": "Passport / ID",
+  "passportNumber": "Passport or ID number",
+  "profilePhoto": "Profile photo",
+  "changePhoto": "Change photo",
+  "statusPending": "Under review",
+  "statusApproved": "Approved",
+  "statusRejected": "Rejected",
+  "statusPendingInfo": "Your registration is being reviewed. We will let you know when it is approved.",
+  "statusApprovedInfo": "Your registration is approved.",
+  "statusRejectedInfo": "Your registration needs changes. See the note below.",
+  "reviewNote": "Note from reviewer",
+  "completeProfileFirst": "Fill in and save your profile first.",
+  "missingRequired": "{count, plural, =1{1 required document is missing} other{{count} required documents are missing}}",
+  "addTruck": "Add truck",
+  "addTrailer": "Add trailer",
+  "truck": "Truck",
+  "trailer": "Trailer",
+  "make": "Make",
+  "model": "Model",
+  "year": "Year",
+  "plateNumber": "License plate",
+  "plateCountry": "Plate country",
+  "vin": "VIN",
+  "trailerType": "Trailer type",
+  "noVehicles": "No vehicles yet. Add your truck.",
+  "vehicleDocuments": "Photos and documents",
+  "takePhoto": "Take photo",
+  "chooseFile": "Choose file",
+  "uploaded": "Uploaded",
+  "notUploaded": "Not uploaded",
+  "replace": "Replace",
+  "view": "View",
+  "requiredMark": "Required",
+  "fileTooLarge": "File is too large (max 10 MB)",
+  "errorGeneric": "Something went wrong: {message}",
+  "admin": "Admin panel",
+  "drivers": "Drivers",
+  "all": "All",
+  "approve": "Approve",
+  "reject": "Reject",
+  "rejectReason": "Reason (the driver will see it)",
+  "search": "Search by name, phone or plate",
+  "noDrivers": "No drivers found",
+  "registeredOn": "Registered {date}",
+  "notConfigured": "The app is not connected to a server yet. Start it with SUPABASE_URL and SUPABASE_ANON_KEY.",
+  "@codeSent": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "@missingRequired": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@errorGeneric": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "@registeredOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "edit": "Edit"
+}
