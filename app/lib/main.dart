@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import 'config.dart';
 import 'data/backend.dart';
 import 'data/demo_backend.dart';
 import 'data/supabase_backend.dart';
@@ -9,13 +10,10 @@ import 'ui/auth_screen.dart';
 import 'ui/driver/driver_home.dart';
 import 'ui/locale_controller.dart';
 
-// Pass these with --dart-define. Without them the app runs in demo mode.
-const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Backend.instance = supabaseUrl.isEmpty
+  Backend.instance = demoMode || supabaseUrl.isEmpty
       ? DemoBackend()
       : await SupabaseBackend.init(url: supabaseUrl, anonKey: supabaseAnonKey);
   await LocaleController.instance.load();

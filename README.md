@@ -6,6 +6,15 @@ Languages: **English, Русский, ქართული, Türkçe** (switcha
 
 ![Screens](docs/screenshots/06_vehicles_ka.png)
 
+## Download the app
+
+Every change to `main` is built automatically. Get the newest version from the [Latest build](../../releases/tag/latest) release:
+
+- **Android:** download `TruckTransport-android.apk` on the phone and open it (allow "install unknown apps" when asked).
+- **Windows:** download `TruckTransport-windows.zip`, unzip it and run `truck_driver_app.exe`.
+
+iPhone and Mac builds need an Apple developer account and are not set up yet.
+
 ## What's inside
 
 | Folder | Contents |
@@ -22,7 +31,7 @@ flutter pub get
 flutter run -d chrome        # or: -d windows / -d macos / an Android or iOS device
 ```
 
-Without server settings the app starts in **preview mode** with sample drivers. Any phone number and SMS code work, and "Open the admin panel" shows the reviewer view. Nothing is saved.
+The app connects to the project's Supabase server (settings in `app/lib/config.dart`). Add `--dart-define=DEMO=true` to start in **preview mode** instead with sample drivers. Any phone number and SMS code work, and "Open the admin panel" shows the reviewer view. Nothing is saved.
 
 ## Connect to Supabase
 
@@ -31,7 +40,7 @@ Without server settings the app starts in **preview mode** with sample drivers. 
 3. **Authentication → Providers**: enable *Email*, and *Phone* with an SMS provider (for example Twilio) for SMS codes.
 4. Make yourself an admin: sign up once in the app, then in the SQL Editor run
    `insert into admins (user_id) values ('<your user id from Authentication → Users>');`
-5. Run the app with your project's URL and publishable (anon) key:
+5. Put your project's URL and publishable key in `app/lib/config.dart`, or pass them when running:
 
 ```bash
 flutter run --dart-define=SUPABASE_URL=https://xxxx.supabase.co --dart-define=SUPABASE_ANON_KEY=your-publishable-key

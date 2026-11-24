@@ -1,0 +1,78 @@
+name: Build apps
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_VERSION: '3.50.0'
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - run: cp build/app/outputs/flutter-apk/app-release.apk ../TruckTransport-android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: TruckTransport-android.apk
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build windows --release
+      - shell: pwsh
+        run: Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath ../TruckTransport-windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: TruckTransport-windows.zip
+
+  release:
+    needs: [android, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Publish as the "latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest out/* \
+            --target "${{ github.sha }}" \
+            --title "Latest build" \
+            --notes "Built automatically from the newest code. Android: download the .apk on your phone and open it. Windows: download the .zip, unzip it and run truck_driver_app.exe." \
+            --prerelease
