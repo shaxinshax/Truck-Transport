@@ -74,10 +74,8 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Form(
                 key: _form,
                 child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                  Icon(Icons.local_shipping_rounded, size: 64, color: theme.colorScheme.primary),
-                  const SizedBox(height: 12),
-                  Text('TD', textAlign: TextAlign.center, style: theme.textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w800, color: theme.colorScheme.primary, letterSpacing: 2)),
-                  const SizedBox(height: 4),
+                  Center(child: Image.asset('assets/brand/logo.png', width: 128, height: 128)),
+                  const SizedBox(height: 16),
                   Text(l.appTitle, textAlign: TextAlign.center, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 28),
                   SegmentedButton<_Method>(
