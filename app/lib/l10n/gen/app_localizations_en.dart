@@ -365,4 +365,121 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get setupDoneInfo =>
       'Thank you! Your registration was sent for review. You can add more details any time.';
+
+  @override
+  String get routes => 'Routes';
+
+  @override
+  String get addRoute => 'Add route';
+
+  @override
+  String get editRoute => 'Edit route';
+
+  @override
+  String get fromCity => 'From (city)';
+
+  @override
+  String get toCity => 'To (city)';
+
+  @override
+  String get departAt => 'Leaving';
+
+  @override
+  String get arriveFrom => 'Arrival from';
+
+  @override
+  String get arriveTo => 'Arrival until';
+
+  @override
+  String get freeForCargo => 'Free for new cargo at destination';
+
+  @override
+  String get freeForCargoShort => 'Free for cargo';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get routeStatus => 'Trip status';
+
+  @override
+  String get routePlanned => 'Planned';
+
+  @override
+  String get routeOnTheWay => 'On the way';
+
+  @override
+  String get routeDone => 'Finished';
+
+  @override
+  String get routeCancelled => 'Cancelled';
+
+  @override
+  String get noRoutes =>
+      'No routes yet. Add where you are going and when you will arrive.';
+
+  @override
+  String get upcoming => 'Upcoming';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get noNotifications => 'No notifications yet';
+
+  @override
+  String get notifDriverApproved => 'Your registration is approved';
+
+  @override
+  String get notifDriverRejected => 'Your registration needs changes';
+
+  @override
+  String get notifDocRejected => 'A document was rejected';
+
+  @override
+  String get notifNewDriver => 'New driver registered';
+
+  @override
+  String get notifNewRoute => 'New route added';
+
+  @override
+  String get arrival => 'Arrival';
+
+  @override
+  String get notSet => 'Not set';
+
+  @override
+  String get liveMap => 'Live map';
+
+  @override
+  String get shareLocation => 'Share my location';
+
+  @override
+  String get shareLocationInfo =>
+      'The dispatcher sees where your truck is. You can turn it off any time.';
+
+  @override
+  String get locationOff => 'Location is turned off on this device';
+
+  @override
+  String get locationDenied => 'Location permission was not given';
+
+  @override
+  String lastSeen(String time) {
+    return 'Updated $time';
+  }
+
+  @override
+  String get trackingNotifTitle => 'TD is sharing your location';
+
+  @override
+  String get trackingNotifText => 'You can turn it off in the Routes tab';
+
+  @override
+  String get noLiveTrucks => 'No trucks are sharing their location right now';
+
+  @override
+  String speedKmh(String speed) {
+    return '$speed km/h';
+  }
 }

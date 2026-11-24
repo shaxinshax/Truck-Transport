@@ -366,4 +366,121 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get setupDoneInfo =>
       'Спасибо! Ваша регистрация отправлена на проверку. Вы можете добавить данные в любое время.';
+
+  @override
+  String get routes => 'Маршруты';
+
+  @override
+  String get addRoute => 'Добавить маршрут';
+
+  @override
+  String get editRoute => 'Изменить маршрут';
+
+  @override
+  String get fromCity => 'Откуда (город)';
+
+  @override
+  String get toCity => 'Куда (город)';
+
+  @override
+  String get departAt => 'Выезд';
+
+  @override
+  String get arriveFrom => 'Прибытие с';
+
+  @override
+  String get arriveTo => 'Прибытие до';
+
+  @override
+  String get freeForCargo => 'Свободен для нового груза в пункте назначения';
+
+  @override
+  String get freeForCargoShort => 'Свободен для груза';
+
+  @override
+  String get note => 'Примечание';
+
+  @override
+  String get routeStatus => 'Статус рейса';
+
+  @override
+  String get routePlanned => 'Запланирован';
+
+  @override
+  String get routeOnTheWay => 'В пути';
+
+  @override
+  String get routeDone => 'Завершён';
+
+  @override
+  String get routeCancelled => 'Отменён';
+
+  @override
+  String get noRoutes =>
+      'Маршрутов пока нет. Добавьте, куда вы едете и когда прибудете.';
+
+  @override
+  String get upcoming => 'Предстоящие';
+
+  @override
+  String get notifications => 'Уведомления';
+
+  @override
+  String get noNotifications => 'Уведомлений пока нет';
+
+  @override
+  String get notifDriverApproved => 'Ваша регистрация одобрена';
+
+  @override
+  String get notifDriverRejected => 'Ваша регистрация требует исправлений';
+
+  @override
+  String get notifDocRejected => 'Документ отклонён';
+
+  @override
+  String get notifNewDriver => 'Новый водитель зарегистрировался';
+
+  @override
+  String get notifNewRoute => 'Добавлен новый маршрут';
+
+  @override
+  String get arrival => 'Прибытие';
+
+  @override
+  String get notSet => 'Не указано';
+
+  @override
+  String get liveMap => 'Карта';
+
+  @override
+  String get shareLocation => 'Делиться местоположением';
+
+  @override
+  String get shareLocationInfo =>
+      'Диспетчер видит, где находится ваш грузовик. Можно выключить в любое время.';
+
+  @override
+  String get locationOff => 'На устройстве выключена геолокация';
+
+  @override
+  String get locationDenied => 'Нет разрешения на геолокацию';
+
+  @override
+  String lastSeen(String time) {
+    return 'Обновлено $time';
+  }
+
+  @override
+  String get trackingNotifTitle => 'TD передаёт ваше местоположение';
+
+  @override
+  String get trackingNotifText => 'Выключить можно во вкладке «Маршруты»';
+
+  @override
+  String get noLiveTrucks => 'Сейчас никто не делится местоположением';
+
+  @override
+  String speedKmh(String speed) {
+    return '$speed км/ч';
+  }
 }

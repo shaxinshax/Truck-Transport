@@ -767,6 +767,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Thank you! Your registration was sent for review. You can add more details any time.'**
   String get setupDoneInfo;
+
+  /// No description provided for @routes.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes'**
+  String get routes;
+
+  /// No description provided for @addRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Add route'**
+  String get addRoute;
+
+  /// No description provided for @editRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit route'**
+  String get editRoute;
+
+  /// No description provided for @fromCity.
+  ///
+  /// In en, this message translates to:
+  /// **'From (city)'**
+  String get fromCity;
+
+  /// No description provided for @toCity.
+  ///
+  /// In en, this message translates to:
+  /// **'To (city)'**
+  String get toCity;
+
+  /// No description provided for @departAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaving'**
+  String get departAt;
+
+  /// No description provided for @arriveFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrival from'**
+  String get arriveFrom;
+
+  /// No description provided for @arriveTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrival until'**
+  String get arriveTo;
+
+  /// No description provided for @freeForCargo.
+  ///
+  /// In en, this message translates to:
+  /// **'Free for new cargo at destination'**
+  String get freeForCargo;
+
+  /// No description provided for @freeForCargoShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Free for cargo'**
+  String get freeForCargoShort;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
+  /// No description provided for @routeStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip status'**
+  String get routeStatus;
+
+  /// No description provided for @routePlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned'**
+  String get routePlanned;
+
+  /// No description provided for @routeOnTheWay.
+  ///
+  /// In en, this message translates to:
+  /// **'On the way'**
+  String get routeOnTheWay;
+
+  /// No description provided for @routeDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get routeDone;
+
+  /// No description provided for @routeCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get routeCancelled;
+
+  /// No description provided for @noRoutes.
+  ///
+  /// In en, this message translates to:
+  /// **'No routes yet. Add where you are going and when you will arrive.'**
+  String get noRoutes;
+
+  /// No description provided for @upcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get upcoming;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @noNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get noNotifications;
+
+  /// No description provided for @notifDriverApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Your registration is approved'**
+  String get notifDriverApproved;
+
+  /// No description provided for @notifDriverRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Your registration needs changes'**
+  String get notifDriverRejected;
+
+  /// No description provided for @notifDocRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'A document was rejected'**
+  String get notifDocRejected;
+
+  /// No description provided for @notifNewDriver.
+  ///
+  /// In en, this message translates to:
+  /// **'New driver registered'**
+  String get notifNewDriver;
+
+  /// No description provided for @notifNewRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'New route added'**
+  String get notifNewRoute;
+
+  /// No description provided for @arrival.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrival'**
+  String get arrival;
+
+  /// No description provided for @notSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSet;
+
+  /// No description provided for @liveMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Live map'**
+  String get liveMap;
+
+  /// No description provided for @shareLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Share my location'**
+  String get shareLocation;
+
+  /// No description provided for @shareLocationInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'The dispatcher sees where your truck is. You can turn it off any time.'**
+  String get shareLocationInfo;
+
+  /// No description provided for @locationOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is turned off on this device'**
+  String get locationOff;
+
+  /// No description provided for @locationDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission was not given'**
+  String get locationDenied;
+
+  /// No description provided for @lastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {time}'**
+  String lastSeen(String time);
+
+  /// No description provided for @trackingNotifTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'TD is sharing your location'**
+  String get trackingNotifTitle;
+
+  /// No description provided for @trackingNotifText.
+  ///
+  /// In en, this message translates to:
+  /// **'You can turn it off in the Routes tab'**
+  String get trackingNotifText;
+
+  /// No description provided for @noLiveTrucks.
+  ///
+  /// In en, this message translates to:
+  /// **'No trucks are sharing their location right now'**
+  String get noLiveTrucks;
+
+  /// No description provided for @speedKmh.
+  ///
+  /// In en, this message translates to:
+  /// **'{speed} km/h'**
+  String speedKmh(String speed);
 }
 
 class _AppLocalizationsDelegate

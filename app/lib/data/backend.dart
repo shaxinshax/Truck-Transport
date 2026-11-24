@@ -41,6 +41,23 @@ abstract class Backend {
   Future<String> uploadProfilePhoto(String driverId, PickedFile file);
   Future<Uint8List?> downloadFile(String storagePath);
 
+  // Routes (trip planning). [driverId] null = all drivers (admins only);
+  // admin rows also carry 'driver_name', 'driver_phone' and 'plate'.
+  Future<List<Map<String, dynamic>>> listRoutes({String? driverId});
+  Future<void> saveRoute(Map<String, dynamic> route);
+  Future<void> deleteRoute(String routeId);
+
+  // Live location. Drivers send their latest position; admins read all of them.
+  // Admin rows also carry 'driver_name', 'driver_phone' and 'plate'.
+  Future<void> updateMyLocation({required double lat, required double lng, double? speedKmh, double? heading});
+  Future<void> stopSharingLocation();
+  Future<List<Map<String, dynamic>>> listLiveLocations();
+
+  // Notifications for the signed-in user
+  ValueListenable<int> get unreadNotifications;
+  Future<List<AppNotification>> listNotifications();
+  Future<void> markNotificationsRead();
+
   // Admin
   Future<List<DriverSummary>> listDrivers({ReviewStatus? status});
   Future<void> setDriverStatus(String driverId, ReviewStatus status, {String? note});

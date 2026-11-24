@@ -22,6 +22,8 @@ class SupabaseBackend implements Backend {
 
   final SupabaseClient _db;
   final _user = ValueNotifier<AppUser?>(null);
+  final _unread = ValueNotifier<int>(0);
+  RealtimeChannel? _channel;
 
   @override
   ValueListenable<AppUser?> get user => _user;
@@ -33,6 +35,9 @@ class SupabaseBackend implements Backend {
     final u = _db.auth.currentUser;
     if (u == null) {
       _user.value = null;
+      _unread.value = 0;
+      await _channel?.unsubscribe();
+      _channel = null;
       return;
     }
     var admin = false;
@@ -40,6 +45,29 @@ class SupabaseBackend implements Backend {
       admin = await _db.rpc('is_admin') as bool? ?? false;
     } catch (_) {}
     _user.value = AppUser(id: u.id, email: u.email, phone: u.phone, isAdmin: admin);
+    _listenNotifications(u.id);
+  }
+
+  void _listenNotifications(String userId) {
+    _channel?.unsubscribe();
+    _channel = _db
+        .channel('notifications-$userId')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.insert,
+          schema: 'public',
+          table: 'notifications',
+          filter: PostgresChangeFilter(type: PostgresChangeFilterType.eq, column: 'user_id', value: userId),
+          callback: (_) => _refreshUnread(),
+        )
+        .subscribe();
+    _refreshUnread();
+  }
+
+  Future<void> _refreshUnread() async {
+    try {
+      final rows = await _db.from('notifications').select('id').isFilter('read_at', null);
+      _unread.value = rows.length;
+    } catch (_) {}
   }
 
   // ---------- Auth ----------
@@ -161,6 +189,88 @@ class SupabaseBackend implements Backend {
     } catch (_) {
       return null;
     }
+  }
+
+  // ---------- Routes ----------
+  @override
+  Future<List<Map<String, dynamic>>> listRoutes({String? driverId}) async {
+    var q = _db.from('routes').select('*, drivers(first_name, last_name, phone), vehicles(plate_number)');
+    if (driverId != null) q = q.eq('driver_id', driverId);
+    final rows = await q.order('arrive_from', ascending: true, nullsFirst: false);
+    return [
+      for (final r in rows)
+        {
+          ...Map<String, dynamic>.of(r)..remove('drivers')..remove('vehicles'),
+          'driver_name': '${r['drivers']?['first_name'] ?? ''} ${r['drivers']?['last_name'] ?? ''}'.trim(),
+          'driver_phone': r['drivers']?['phone'],
+          'plate': r['vehicles']?['plate_number'],
+        }
+    ];
+  }
+
+  @override
+  Future<void> saveRoute(Map<String, dynamic> route) async {
+    final row = Map<String, dynamic>.of(route)
+      ..removeWhere((k, _) => const {'created_at', 'updated_at', 'driver_name', 'driver_phone', 'plate'}.contains(k));
+    await _db.from('routes').upsert(row);
+  }
+
+  @override
+  Future<void> deleteRoute(String routeId) => _db.from('routes').delete().eq('id', routeId);
+
+  // ---------- Live location ----------
+  @override
+  Future<void> updateMyLocation({required double lat, required double lng, double? speedKmh, double? heading}) async {
+    await _db.from('driver_locations').upsert({
+      'driver_id': _db.auth.currentUser!.id,
+      'lat': lat,
+      'lng': lng,
+      'speed_kmh': speedKmh,
+      'heading': heading,
+      'sharing': true,
+      'updated_at': DateTime.now().toUtc().toIso8601String(),
+    });
+  }
+
+  @override
+  Future<void> stopSharingLocation() async {
+    await _db.from('driver_locations').update({'sharing': false}).eq('driver_id', _db.auth.currentUser!.id);
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> listLiveLocations() async {
+    final rows = await _db
+        .from('driver_locations')
+        .select('*, drivers(first_name, last_name, phone, vehicles(plate_number, kind))')
+        .eq('sharing', true);
+    return [
+      for (final r in rows)
+        {
+          ...Map<String, dynamic>.of(r)..remove('drivers'),
+          'driver_name': '${r['drivers']?['first_name'] ?? ''} ${r['drivers']?['last_name'] ?? ''}'.trim(),
+          'driver_phone': r['drivers']?['phone'],
+          'plate': [
+            for (final v in (r['drivers']?['vehicles'] as List? ?? const []))
+              if (v['kind'] == 'truck') v['plate_number']
+          ].join(', '),
+        }
+    ];
+  }
+
+  // ---------- Notifications ----------
+  @override
+  ValueListenable<int> get unreadNotifications => _unread;
+
+  @override
+  Future<List<AppNotification>> listNotifications() async {
+    final rows = await _db.from('notifications').select().order('created_at', ascending: false).limit(100);
+    return [for (final r in rows) AppNotification.fromMap(r)];
+  }
+
+  @override
+  Future<void> markNotificationsRead() async {
+    await _db.from('notifications').update({'read_at': DateTime.now().toUtc().toIso8601String()}).isFilter('read_at', null);
+    _unread.value = 0;
   }
 
   // ---------- Admin ----------

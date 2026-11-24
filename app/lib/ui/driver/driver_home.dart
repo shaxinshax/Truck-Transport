@@ -6,6 +6,9 @@ import '../common.dart';
 import 'documents_screen.dart';
 import 'driver_data.dart';
 import 'profile_screen.dart';
+import 'routes_screen.dart';
+import 'location_sharing.dart';
+import '../notifications.dart';
 import 'setup_wizard.dart';
 import 'vehicles_screen.dart';
 
@@ -25,7 +28,16 @@ class _DriverHomeState extends State<DriverHome> {
   bool? _setup;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) LocationSharing.instance.resume(context.l10n);
+    });
+  }
+
+  @override
   void dispose() {
+    LocationSharing.instance.pause();
     data.dispose();
     super.dispose();
   }
@@ -37,6 +49,7 @@ class _DriverHomeState extends State<DriverHome> {
       (Icons.person_outline, Icons.person, l.profile),
       (Icons.local_shipping_outlined, Icons.local_shipping, l.vehicles),
       (Icons.folder_outlined, Icons.folder, l.documents),
+      (Icons.alt_route_outlined, Icons.alt_route, l.routes),
     ];
     return ListenableBuilder(
       listenable: data,
@@ -60,7 +73,8 @@ class _DriverHomeState extends State<DriverHome> {
           body = switch (_tab) {
             0 => ProfileScreen(data: data),
             1 => VehiclesScreen(data: data),
-            _ => DocumentsScreen(data: data),
+            2 => DocumentsScreen(data: data),
+            _ => RoutesScreen(data: data),
           };
         }
         return Scaffold(
@@ -68,6 +82,7 @@ class _DriverHomeState extends State<DriverHome> {
             title: Text(destinations[_tab].$3),
             actions: [
               if (data.hasProfile && wide) Padding(padding: const EdgeInsets.only(right: 8), child: StatusChip(data.status)),
+              const NotificationBell(),
               const LanguageMenu(),
               IconButton(tooltip: l.logout, onPressed: Backend.instance.signOut, icon: const Icon(Icons.logout)),
             ],

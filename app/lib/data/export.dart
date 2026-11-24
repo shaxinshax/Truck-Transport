@@ -36,6 +36,7 @@ class DriverExport {
     final defaultSheet = excel.getDefaultSheet();
     final ds = excel[l.drivers];
     final vs = excel[l.vehicles];
+    final rs = excel[l.routes];
     if (defaultSheet != null) excel.delete(defaultSheet);
 
     final bold = CellStyle(bold: true, backgroundColorHex: ExcelColor.fromHexString('#DCE6F5'));
@@ -54,6 +55,9 @@ class DriverExport {
     header(vs, ['№', l.firstName, l.lastName, '${l.truck} / ${l.trailer}', l.plateNumber, l.plateCountry, l.make, l.model,
       l.year, l.vin, l.trailerType, 'Status', 'Folder']);
 
+    header(rs, ['№', l.firstName, l.lastName, l.phone, l.fromCity, l.country, l.toCity, l.country, l.departAt,
+      l.arriveFrom, l.arriveTo, l.truck, l.freeForCargoShort, l.routeStatus, l.note]);
+
     for (var i = 0; i < drivers.length; i++) {
       onProgress?.call(i / drivers.length);
       final s = drivers[i];
@@ -62,6 +66,15 @@ class DriverExport {
       final folder = '$num ${_safe(s.fullName.isEmpty ? (d['phone'] ?? d['email'] ?? s.id).toString() : s.fullName)}';
       final vehicles = await _api.listVehicles(s.id);
       final docs = await _api.listDocuments(s.id);
+      for (final r in await _api.listRoutes(driverId: s.id)) {
+        rs.appendRow([
+          TextCellValue(num), _t(d['first_name']), _t(d['last_name']), _t(d['phone']),
+          _t(r['from_city']), _t(r['from_country']), _t(r['to_city']), _t(r['to_country']),
+          _t(_dateTime(r['depart_at'])), _t(_dateTime(r['arrive_from'])), _t(_dateTime(r['arrive_to'])),
+          _t(r['plate']), TextCellValue(r['free_for_cargo'] == true ? '✓' : ''),
+          TextCellValue(_routeStatus(parseRouteStatus(r['status']))), _t(r['note']),
+        ]);
+      }
       final used = <String>{};
 
       Future<void> addFile(String dir, String name, String path, {String? fallbackExt}) async {
@@ -118,6 +131,19 @@ class DriverExport {
         ReviewStatus.approved => l.statusApproved,
         ReviewStatus.rejected => l.statusRejected,
       };
+
+  String _routeStatus(RouteStatus s) => switch (s) {
+        RouteStatus.planned => l.routePlanned,
+        RouteStatus.on_the_way => l.routeOnTheWay,
+        RouteStatus.done => l.routeDone,
+        RouteStatus.cancelled => l.routeCancelled,
+      };
+
+  static String? _dateTime(Object? v) {
+    final d = DateTime.tryParse(v?.toString() ?? '')?.toLocal();
+    if (d == null) return null;
+    return '${_date(d.toIso8601String())} ${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+  }
 
   static CellValue _t(Object? v) =>
       TextCellValue(v == null ? '' : (v is List ? v.join(', ') : v.toString()));

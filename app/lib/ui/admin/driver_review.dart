@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../data/backend.dart';
 import '../../data/models.dart';
 import '../common.dart';
+import '../routes_ui.dart';
 
 /// Admin view of one driver: details, vehicles and documents to approve or reject.
 class DriverReview extends StatefulWidget {
@@ -18,6 +19,7 @@ class _DriverReviewState extends State<DriverReview> {
   Map<String, dynamic>? _driver;
   List<Map<String, dynamic>> _vehicles = [];
   List<DocRecord> _docs = [];
+  List<Map<String, dynamic>> _routes = [];
   Map<String, DocType> _types = {};
   bool _loading = true;
 
@@ -36,7 +38,9 @@ class _DriverReviewState extends State<DriverReview> {
         _api.listVehicles(widget.driverId),
         _api.listDocuments(widget.driverId),
         _api.listDocTypes(),
+        _api.listRoutes(driverId: widget.driverId),
       ]);
+      _routes = r[4] as List<Map<String, dynamic>>;
       _driver = r[0] as Map<String, dynamic>?;
       _vehicles = r[1] as List<Map<String, dynamic>>;
       _docs = r[2] as List<DocRecord>;
@@ -188,6 +192,9 @@ class _DriverReviewState extends State<DriverReview> {
         const SizedBox(height: 8),
         _docGrid(_docs.where((x) => x.vehicleId == v['id']).toList()),
       ],
+      SectionTitle(l.routes),
+      if (_routes.isEmpty) Text(l.noRoutes, style: TextStyle(color: theme.colorScheme.outline)),
+      for (final r in _routes) ConstrainedBox(constraints: const BoxConstraints(maxWidth: 620), child: RouteCard(route: r)),
     ]);
   }
 

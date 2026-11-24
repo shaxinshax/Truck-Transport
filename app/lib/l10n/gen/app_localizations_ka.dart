@@ -364,4 +364,122 @@ class AppLocalizationsKa extends AppLocalizations {
   @override
   String get setupDoneInfo =>
       'გმადლობთ! თქვენი რეგისტრაცია გაიგზავნა შესამოწმებლად. დამატებითი ინფორმაციის შეყვანა ნებისმიერ დროს შეგიძლიათ.';
+
+  @override
+  String get routes => 'მარშრუტები';
+
+  @override
+  String get addRoute => 'მარშრუტის დამატება';
+
+  @override
+  String get editRoute => 'მარშრუტის რედაქტირება';
+
+  @override
+  String get fromCity => 'საიდან (ქალაქი)';
+
+  @override
+  String get toCity => 'სად (ქალაქი)';
+
+  @override
+  String get departAt => 'გასვლა';
+
+  @override
+  String get arriveFrom => 'ჩასვლა დან';
+
+  @override
+  String get arriveTo => 'ჩასვლა მდე';
+
+  @override
+  String get freeForCargo =>
+      'თავისუფალია ახალი ტვირთისთვის დანიშნულების ადგილზე';
+
+  @override
+  String get freeForCargoShort => 'თავისუფალია ტვირთისთვის';
+
+  @override
+  String get note => 'შენიშვნა';
+
+  @override
+  String get routeStatus => 'რეისის სტატუსი';
+
+  @override
+  String get routePlanned => 'დაგეგმილი';
+
+  @override
+  String get routeOnTheWay => 'გზაში';
+
+  @override
+  String get routeDone => 'დასრულებული';
+
+  @override
+  String get routeCancelled => 'გაუქმებული';
+
+  @override
+  String get noRoutes =>
+      'მარშრუტები ჯერ არ არის. დაამატეთ სად მიდიხართ და როდის ჩახვალთ.';
+
+  @override
+  String get upcoming => 'მომავალი';
+
+  @override
+  String get notifications => 'შეტყობინებები';
+
+  @override
+  String get noNotifications => 'შეტყობინებები ჯერ არ არის';
+
+  @override
+  String get notifDriverApproved => 'თქვენი რეგისტრაცია დადასტურდა';
+
+  @override
+  String get notifDriverRejected => 'თქვენს რეგისტრაციას ცვლილებები სჭირდება';
+
+  @override
+  String get notifDocRejected => 'დოკუმენტი უარყოფილია';
+
+  @override
+  String get notifNewDriver => 'დარეგისტრირდა ახალი მძღოლი';
+
+  @override
+  String get notifNewRoute => 'დაემატა ახალი მარშრუტი';
+
+  @override
+  String get arrival => 'ჩასვლა';
+
+  @override
+  String get notSet => 'არ არის მითითებული';
+
+  @override
+  String get liveMap => 'ცოცხალი რუკა';
+
+  @override
+  String get shareLocation => 'ჩემი მდებარეობის გაზიარება';
+
+  @override
+  String get shareLocationInfo =>
+      'დისპეჩერი ხედავს, სად არის თქვენი სატვირთო. შეგიძლიათ ნებისმიერ დროს გამორთოთ.';
+
+  @override
+  String get locationOff => 'მოწყობილობაზე მდებარეობა გამორთულია';
+
+  @override
+  String get locationDenied => 'მდებარეობის ნებართვა არ არის მიცემული';
+
+  @override
+  String lastSeen(String time) {
+    return 'განახლდა $time';
+  }
+
+  @override
+  String get trackingNotifTitle => 'TD აზიარებს თქვენს მდებარეობას';
+
+  @override
+  String get trackingNotifText => 'გამორთვა შეგიძლიათ მარშრუტების ჩანართში';
+
+  @override
+  String get noLiveTrucks => 'ახლა არცერთი სატვირთო არ აზიარებს მდებარეობას';
+
+  @override
+  String speedKmh(String speed) {
+    return '$speed კმ/სთ';
+  }
 }

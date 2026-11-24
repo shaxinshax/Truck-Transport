@@ -107,3 +107,29 @@ class DriverSummary {
       '${driver['first_name'] ?? ''} ${driver['last_name'] ?? ''}'.trim();
   ReviewStatus get status => parseStatus(driver['status']);
 }
+
+// Names match the database enum.
+// ignore: constant_identifier_names
+enum RouteStatus { planned, on_the_way, done, cancelled }
+
+RouteStatus parseRouteStatus(Object? v) => RouteStatus.values
+    .firstWhere((s) => s.name == v, orElse: () => RouteStatus.planned);
+
+class AppNotification {
+  AppNotification({required this.id, required this.kind, this.data = const {}, this.readAt, DateTime? createdAt})
+      : createdAt = createdAt ?? DateTime.now();
+
+  factory AppNotification.fromMap(Map<String, dynamic> m) => AppNotification(
+        id: m['id'] as String,
+        kind: m['kind'] as String,
+        data: Map<String, dynamic>.from(m['data'] as Map? ?? const {}),
+        readAt: DateTime.tryParse(m['read_at'] as String? ?? ''),
+        createdAt: DateTime.tryParse(m['created_at'] as String? ?? ''),
+      );
+
+  final String id;
+  final String kind;
+  final Map<String, dynamic> data;
+  DateTime? readAt;
+  final DateTime createdAt;
+}

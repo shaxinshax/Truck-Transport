@@ -364,4 +364,121 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get setupDoneInfo =>
       'Teşekkürler! Kaydınız incelemeye gönderildi. Daha fazla bilgiyi istediğiniz zaman ekleyebilirsiniz.';
+
+  @override
+  String get routes => 'Rotalar';
+
+  @override
+  String get addRoute => 'Rota ekle';
+
+  @override
+  String get editRoute => 'Rotayı düzenle';
+
+  @override
+  String get fromCity => 'Nereden (şehir)';
+
+  @override
+  String get toCity => 'Nereye (şehir)';
+
+  @override
+  String get departAt => 'Çıkış';
+
+  @override
+  String get arriveFrom => 'Varış (en erken)';
+
+  @override
+  String get arriveTo => 'Varış (en geç)';
+
+  @override
+  String get freeForCargo => 'Varış noktasında yeni yük için müsait';
+
+  @override
+  String get freeForCargoShort => 'Yük için müsait';
+
+  @override
+  String get note => 'Not';
+
+  @override
+  String get routeStatus => 'Sefer durumu';
+
+  @override
+  String get routePlanned => 'Planlandı';
+
+  @override
+  String get routeOnTheWay => 'Yolda';
+
+  @override
+  String get routeDone => 'Tamamlandı';
+
+  @override
+  String get routeCancelled => 'İptal edildi';
+
+  @override
+  String get noRoutes =>
+      'Henüz rota yok. Nereye gittiğinizi ve ne zaman varacağınızı ekleyin.';
+
+  @override
+  String get upcoming => 'Yaklaşan';
+
+  @override
+  String get notifications => 'Bildirimler';
+
+  @override
+  String get noNotifications => 'Henüz bildirim yok';
+
+  @override
+  String get notifDriverApproved => 'Kaydınız onaylandı';
+
+  @override
+  String get notifDriverRejected => 'Kaydınızda değişiklik gerekiyor';
+
+  @override
+  String get notifDocRejected => 'Bir belge reddedildi';
+
+  @override
+  String get notifNewDriver => 'Yeni sürücü kaydoldu';
+
+  @override
+  String get notifNewRoute => 'Yeni rota eklendi';
+
+  @override
+  String get arrival => 'Varış';
+
+  @override
+  String get notSet => 'Belirtilmedi';
+
+  @override
+  String get liveMap => 'Canlı harita';
+
+  @override
+  String get shareLocation => 'Konumumu paylaş';
+
+  @override
+  String get shareLocationInfo =>
+      'Görevli kamyonunuzun nerede olduğunu görür. İstediğiniz zaman kapatabilirsiniz.';
+
+  @override
+  String get locationOff => 'Bu cihazda konum kapalı';
+
+  @override
+  String get locationDenied => 'Konum izni verilmedi';
+
+  @override
+  String lastSeen(String time) {
+    return 'Güncellendi $time';
+  }
+
+  @override
+  String get trackingNotifTitle => 'TD konumunuzu paylaşıyor';
+
+  @override
+  String get trackingNotifText => 'Rotalar sekmesinden kapatabilirsiniz';
+
+  @override
+  String get noLiveTrucks => 'Şu anda konumunu paylaşan kamyon yok';
+
+  @override
+  String speedKmh(String speed) {
+    return '$speed km/sa';
+  }
 }

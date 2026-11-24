@@ -18,6 +18,10 @@ class DemoBackend implements Backend {
   final _docs = <DocRecord>[];
   final _files = <String, Uint8List>{};
   final _assetFiles = <String, String>{};
+  final _routes = <String, Map<String, dynamic>>{};
+  final _notifications = <String, List<AppNotification>>{}; // by user id
+  final _unread = ValueNotifier<int>(0);
+  final _locations = <String, Map<String, dynamic>>{};
   int _seq = 0;
 
   String _id() => 'demo-${++_seq}';
@@ -39,6 +43,7 @@ class DemoBackend implements Backend {
   Future<void> verifyPhoneCode(String phone, String code) async {
     await _delay();
     _user.value = AppUser(id: 'user-$phone', phone: phone);
+    _syncUnread();
   }
 
   @override
@@ -52,10 +57,14 @@ class DemoBackend implements Backend {
     await _delay();
     final admin = email.toLowerCase() == demoAdminEmail;
     _user.value = AppUser(id: admin ? 'admin' : 'user-$email', email: email, isAdmin: admin);
+    _syncUnread();
   }
 
   @override
-  Future<void> signOut() async => _user.value = null;
+  Future<void> signOut() async {
+    _user.value = null;
+    _syncUnread();
+  }
 
   // ---------- Driver data ----------
   @override
@@ -69,6 +78,9 @@ class DemoBackend implements Backend {
   Future<void> saveDriver(Map<String, dynamic> driver) async {
     await _delay();
     final id = driver['id'] as String;
+    if (!_drivers.containsKey(id)) {
+      _notify('admin', 'new_driver', {'driver_id': id, 'name': '${driver['first_name'] ?? ''} ${driver['last_name'] ?? ''}'.trim()});
+    }
     _drivers[id] = {
       'created_at': DateTime.now().toIso8601String(),
       ...?_drivers[id],
@@ -175,6 +187,7 @@ class DemoBackend implements Backend {
   Future<void> setDriverStatus(String driverId, ReviewStatus status, {String? note}) async {
     await _delay();
     _drivers[driverId]?.addAll({'status': status.name, 'review_note': note});
+    if (status != ReviewStatus.pending) _notify(driverId, 'driver_${status.name}', {'note': note});
   }
 
   @override
@@ -182,10 +195,113 @@ class DemoBackend implements Backend {
     await _delay();
     for (final d in _docs) {
       if (d.id == docId) {
+        if (status == ReviewStatus.rejected && d.status != ReviewStatus.rejected) {
+          _notify(d.driverId, 'doc_rejected', {'type': d.type, 'note': note});
+        }
         d.status = status;
         d.reviewNote = note;
       }
     }
+  }
+
+  // ---------- Routes ----------
+  @override
+  Future<List<Map<String, dynamic>>> listRoutes({String? driverId}) async {
+    await _delay();
+    final list = [
+      for (final r in _routes.values)
+        if (driverId == null || r['driver_id'] == driverId)
+          {
+            ...r,
+            'driver_name': '${_drivers[r['driver_id']]?['first_name'] ?? ''} ${_drivers[r['driver_id']]?['last_name'] ?? ''}'.trim(),
+            'driver_phone': _drivers[r['driver_id']]?['phone'],
+            'plate': _vehicles[r['vehicle_id']]?['plate_number'],
+          }
+    ];
+    list.sort((a, b) => (a['arrive_from'] ?? '9999').toString().compareTo((b['arrive_from'] ?? '9999').toString()));
+    return list;
+  }
+
+  @override
+  Future<void> saveRoute(Map<String, dynamic> route) async {
+    await _delay();
+    final isNew = route['id'] == null;
+    final id = route['id'] as String? ?? _id();
+    _routes[id] = {'status': 'planned', 'free_for_cargo': true, ...?_routes[id], ...route, 'id': id}
+      ..removeWhere((k, _) => const {'driver_name', 'driver_phone', 'plate'}.contains(k));
+    if (isNew) {
+      final d = _drivers[route['driver_id']];
+      _notify('admin', 'new_route', {
+        'driver_id': route['driver_id'],
+        'name': '${d?['first_name'] ?? ''} ${d?['last_name'] ?? ''}'.trim(),
+        'from': route['from_city'],
+        'to': route['to_city'],
+        'arrive_from': route['arrive_from'],
+      });
+    }
+  }
+
+  @override
+  Future<void> deleteRoute(String routeId) async {
+    await _delay();
+    _routes.remove(routeId);
+  }
+
+  // ---------- Live location ----------
+  @override
+  Future<void> updateMyLocation({required double lat, required double lng, double? speedKmh, double? heading}) async {
+    final id = _user.value!.id;
+    _locations[id] = {'driver_id': id, 'lat': lat, 'lng': lng, 'speed_kmh': speedKmh, 'heading': heading,
+      'sharing': true, 'updated_at': DateTime.now().toUtc().toIso8601String()};
+  }
+
+  @override
+  Future<void> stopSharingLocation() async => _locations[_user.value?.id]?['sharing'] = false;
+
+  @override
+  Future<List<Map<String, dynamic>>> listLiveLocations() async {
+    await _delay();
+    return [
+      for (final r in _locations.values)
+        if (r['sharing'] == true)
+          {
+            ...r,
+            'driver_name': '${_drivers[r['driver_id']]?['first_name'] ?? ''} ${_drivers[r['driver_id']]?['last_name'] ?? ''}'.trim(),
+            'driver_phone': _drivers[r['driver_id']]?['phone'],
+            'plate': [
+              for (final v in _vehicles.values)
+                if (v['driver_id'] == r['driver_id'] && v['kind'] == 'truck') v['plate_number']
+            ].join(', '),
+          }
+    ];
+  }
+
+  // ---------- Notifications ----------
+  void _notify(String userId, String kind, Map<String, dynamic> data, {DateTime? at}) {
+    _notifications.putIfAbsent(userId, () => []).insert(0, AppNotification(id: _id(), kind: kind, data: data, createdAt: at));
+    _syncUnread();
+  }
+
+  void _syncUnread() {
+    final mine = _notifications[_user.value?.id] ?? const [];
+    _unread.value = mine.where((n) => n.readAt == null).length;
+  }
+
+  @override
+  ValueListenable<int> get unreadNotifications => _unread;
+
+  @override
+  Future<List<AppNotification>> listNotifications() async {
+    await _delay();
+    return List.of(_notifications[_user.value?.id] ?? const []);
+  }
+
+  @override
+  Future<void> markNotificationsRead() async {
+    for (final n in _notifications[_user.value?.id] ?? const <AppNotification>[]) {
+      n.readAt ??= DateTime.now();
+    }
+    _syncUnread();
   }
 
   // ---------- Sample data ----------
@@ -240,6 +356,22 @@ class DemoBackend implements Backend {
       'created_at': daysAgo(6),
     };
     _seedDoc('d3', 'driver_license_front', 'license.png', status: ReviewStatus.rejected, note: 'Blurry photo');
+
+    DateTime day(int d, int h) => DateTime(now.year, now.month, now.day + d, h);
+    _routes['r1'] = {'id': 'r1', 'driver_id': 'd1', 'vehicle_id': 'v1', 'from_city': 'Tbilisi', 'from_country': 'GE',
+      'to_city': 'Istanbul', 'to_country': 'TR', 'depart_at': day(1, 8).toIso8601String(),
+      'arrive_from': day(3, 10).toIso8601String(), 'arrive_to': day(3, 18).toIso8601String(),
+      'free_for_cargo': true, 'status': 'planned', 'note': 'Can take 20 t back to Georgia'};
+    _routes['r2'] = {'id': 'r2', 'driver_id': 'd2', 'vehicle_id': 'v2', 'from_city': 'Ankara', 'from_country': 'TR',
+      'to_city': 'Batumi', 'to_country': 'GE', 'depart_at': day(0, 6).toIso8601String(),
+      'arrive_from': day(1, 14).toIso8601String(), 'arrive_to': day(1, 20).toIso8601String(),
+      'free_for_cargo': true, 'status': 'on_the_way'};
+    String minsAgo(int m) => now.subtract(Duration(minutes: m)).toUtc().toIso8601String();
+    _locations['d1'] = {'driver_id': 'd1', 'lat': 41.6420, 'lng': 41.6339, 'speed_kmh': 0.0, 'sharing': true, 'updated_at': minsAgo(3)};
+    _locations['d2'] = {'driver_id': 'd2', 'lat': 40.9862, 'lng': 39.7178, 'speed_kmh': 74.0, 'sharing': true, 'updated_at': minsAgo(1)};
+    _notify('admin', 'new_driver', {'driver_id': 'd1', 'name': 'Giorgi Beridze'}, at: now.subtract(const Duration(hours: 2)));
+    _notify('admin', 'new_route', {'driver_id': 'd1', 'name': 'Giorgi Beridze', 'from': 'Tbilisi', 'to': 'Istanbul',
+      'arrive_from': day(3, 10).toIso8601String()}, at: now.subtract(const Duration(minutes: 40)));
   }
 }
 

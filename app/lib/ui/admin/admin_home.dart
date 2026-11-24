@@ -4,6 +4,9 @@ import '../../data/backend.dart';
 import '../../data/models.dart';
 import '../common.dart';
 import 'driver_review.dart';
+import 'admin_routes.dart';
+import 'live_map.dart';
+import '../notifications.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
@@ -49,111 +52,139 @@ class _AdminHomeState extends State<AdminHome> {
     final l = context.l10n;
     final wide = MediaQuery.sizeOf(context).width >= 900;
     final list = _list(context, wide);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l.admin),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: wide
-                ? FilledButton.icon(
-                    onPressed: () => downloadDriverData(context),
-                    icon: const Icon(Icons.download),
-                    label: Text(l.downloadAll),
-                  )
-                : IconButton.filled(
-                    tooltip: l.downloadAll,
-                    onPressed: () => downloadDriverData(context),
-                    icon: const Icon(Icons.download),
-                  ),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l.admin),
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: const Icon(Icons.badge_outlined), text: l.drivers),
+              Tab(icon: const Icon(Icons.alt_route), text: l.routes),
+              Tab(icon: const Icon(Icons.map_outlined), text: l.liveMap),
+            ],
           ),
-          const LanguageMenu(),
-          IconButton(tooltip: l.logout, onPressed: Backend.instance.signOut, icon: const Icon(Icons.logout)),
-        ],
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: wide
+                  ? FilledButton.icon(
+                      onPressed: () => downloadDriverData(context),
+                      icon: const Icon(Icons.download),
+                      label: Text(l.downloadAll),
+                    )
+                  : IconButton.filled(
+                      tooltip: l.downloadAll,
+                      onPressed: () => downloadDriverData(context),
+                      icon: const Icon(Icons.download),
+                    ),
+            ),
+            const NotificationBell(),
+            const LanguageMenu(),
+            IconButton(tooltip: l.logout, onPressed: Backend.instance.signOut, icon: const Icon(Icons.logout)),
+          ],
+        ),
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            wide
+                ? Row(
+                    children: [
+                      SizedBox(width: 380, child: list),
+                      const VerticalDivider(width: 1),
+                      Expanded(
+                        child: _selected == null
+                            ? Center(
+                                child: Icon(Icons.badge_outlined, size: 72, color: Theme.of(context).colorScheme.outlineVariant),
+                              )
+                            : DriverReview(key: ValueKey(_selected), driverId: _selected!, onChanged: _load),
+                      ),
+                    ],
+                  )
+                : list,
+            const AdminRoutes(),
+            const LiveMap(),
+          ],
+        ),
       ),
-      body: wide
-          ? Row(children: [
-              SizedBox(width: 380, child: list),
-              const VerticalDivider(width: 1),
-              Expanded(
-                child: _selected == null
-                    ? Center(child: Icon(Icons.badge_outlined, size: 72, color: Theme.of(context).colorScheme.outlineVariant))
-                    : DriverReview(key: ValueKey(_selected), driverId: _selected!, onChanged: _load),
-              ),
-            ])
-          : list,
     );
   }
 
   Widget _list(BuildContext context, bool wide) {
     final l = context.l10n;
     final items = _visible;
-    return Column(children: [
-      Padding(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
-        child: TextField(
-          decoration: InputDecoration(hintText: l.search, prefixIcon: const Icon(Icons.search), isDense: true),
-          onChanged: (v) => setState(() => _query = v),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
+          child: TextField(
+            decoration: InputDecoration(hintText: l.search, prefixIcon: const Icon(Icons.search), isDense: true),
+            onChanged: (v) => setState(() => _query = v),
+          ),
         ),
-      ),
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Row(children: [
-          for (final f in <ReviewStatus?>[ReviewStatus.pending, ReviewStatus.approved, ReviewStatus.rejected, null])
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ChoiceChip(
-                label: Text(switch (f) {
-                  ReviewStatus.pending => l.statusPending,
-                  ReviewStatus.approved => l.statusApproved,
-                  ReviewStatus.rejected => l.statusRejected,
-                  null => l.all,
-                }),
-                selected: _filter == f,
-                onSelected: (_) {
-                  setState(() => _filter = f);
-                  _load();
-                },
-              ),
-            ),
-        ]),
-      ),
-      const SizedBox(height: 8),
-      if (_loading) const LinearProgressIndicator(minHeight: 2) else const SizedBox(height: 2),
-      Expanded(
-        child: items.isEmpty && !_loading
-            ? Center(child: Text(l.noDrivers))
-            : RefreshIndicator(
-                onRefresh: _load,
-                child: ListView.separated(
-                  itemCount: items.length,
-                  separatorBuilder: (_, _) => const Divider(height: 1),
-                  itemBuilder: (context, i) {
-                    final d = items[i];
-                    return ListTile(
-                      selected: wide && d.id == _selected,
-                      leading: CircleAvatar(child: Text(d.fullName.isEmpty ? '?' : d.fullName.characters.first)),
-                      title: Text(d.fullName.isEmpty ? '—' : d.fullName),
-                      subtitle: Text([d.driver['phone'], ...d.plates].whereType<String>().join(' · ')),
-                      trailing: StatusChip(d.status, dense: true),
-                      onTap: () {
-                        if (wide) {
-                          setState(() => _selected = d.id);
-                        } else {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (_) => Scaffold(
-                              appBar: AppBar(title: Text(d.fullName)),
-                              body: DriverReview(driverId: d.id, onChanged: _load),
-                            ),
-                          ));
-                        }
-                      },
-                    );
-                  },
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              for (final f in <ReviewStatus?>[ReviewStatus.pending, ReviewStatus.approved, ReviewStatus.rejected, null])
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ChoiceChip(
+                    label: Text(switch (f) {
+                      ReviewStatus.pending => l.statusPending,
+                      ReviewStatus.approved => l.statusApproved,
+                      ReviewStatus.rejected => l.statusRejected,
+                      null => l.all,
+                    }),
+                    selected: _filter == f,
+                    onSelected: (_) {
+                      setState(() => _filter = f);
+                      _load();
+                    },
+                  ),
                 ),
-              ),
-      ),
-    ]);
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        if (_loading) const LinearProgressIndicator(minHeight: 2) else const SizedBox(height: 2),
+        Expanded(
+          child: items.isEmpty && !_loading
+              ? Center(child: Text(l.noDrivers))
+              : RefreshIndicator(
+                  onRefresh: _load,
+                  child: ListView.separated(
+                    itemCount: items.length,
+                    separatorBuilder: (_, _) => const Divider(height: 1),
+                    itemBuilder: (context, i) {
+                      final d = items[i];
+                      return ListTile(
+                        selected: wide && d.id == _selected,
+                        leading: CircleAvatar(child: Text(d.fullName.isEmpty ? '?' : d.fullName.characters.first)),
+                        title: Text(d.fullName.isEmpty ? '—' : d.fullName),
+                        subtitle: Text([d.driver['phone'], ...d.plates].whereType<String>().join(' · ')),
+                        trailing: StatusChip(d.status, dense: true),
+                        onTap: () {
+                          if (wide) {
+                            setState(() => _selected = d.id);
+                          } else {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => Scaffold(
+                                  appBar: AppBar(title: Text(d.fullName)),
+                                  body: DriverReview(driverId: d.id, onChanged: _load),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+        ),
+      ],
+    );
   }
 }
