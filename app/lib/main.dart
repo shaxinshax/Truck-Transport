@@ -28,7 +28,7 @@ class DriverApp extends StatelessWidget {
     return ValueListenableBuilder<Locale?>(
       valueListenable: LocaleController.instance,
       builder: (context, locale, _) => MaterialApp(
-        onGenerateTitle: (c) => AppLocalizations.of(c).appTitle,
+        title: 'TD',
         debugShowCheckedModeBanner: false,
         locale: locale,
         supportedLocales: AppLocalizations.supportedLocales,
