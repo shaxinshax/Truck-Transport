@@ -29,6 +29,12 @@ android {
         versionName = flutter.versionName
     }
 
+    // The release lint check crashes on the image_picker plugin's sources
+    // (a bug in the lint tool, not in our code), so skip it for release builds.
+    lint {
+        checkReleaseBuilds = false
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
