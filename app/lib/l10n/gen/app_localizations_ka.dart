@@ -310,4 +310,58 @@ class AppLocalizationsKa extends AppLocalizations {
 
   @override
   String get downloadSaved => 'შენახულია';
+
+  @override
+  String get loginWithWhatsapp => 'WhatsApp';
+
+  @override
+  String get loginWithSms => 'SMS';
+
+  @override
+  String get getCodeWhatsapp => 'კოდის მიღება WhatsApp-ზე';
+
+  @override
+  String codeSentWhatsapp(String phone) {
+    return 'კოდი გამოგზავნილია WhatsApp-ზე ნომერზე $phone';
+  }
+
+  @override
+  String get code => 'კოდი';
+
+  @override
+  String get setupTitle => 'სწრაფი რეგისტრაცია';
+
+  @override
+  String stepOf(int n, int total) {
+    return 'ნაბიჯი $n / $total';
+  }
+
+  @override
+  String get stepAboutYou => 'თქვენ შესახებ';
+
+  @override
+  String get stepTruck => 'თქვენი სატვირთო';
+
+  @override
+  String get stepPhotos => 'დოკუმენტების ფოტოები';
+
+  @override
+  String get stepPhotosHint =>
+      'გადაუღეთ ფოტო თითოეულ დოკუმენტს ტელეფონის კამერით.';
+
+  @override
+  String get next => 'შემდეგი';
+
+  @override
+  String get back => 'უკან';
+
+  @override
+  String get skip => 'გამოტოვება';
+
+  @override
+  String get finish => 'დასრულება';
+
+  @override
+  String get setupDoneInfo =>
+      'გმადლობთ! თქვენი რეგისტრაცია გაიგზავნა შესამოწმებლად. დამატებითი ინფორმაციის შეყვანა ნებისმიერ დროს შეგიძლიათ.';
 }

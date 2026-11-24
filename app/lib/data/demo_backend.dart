@@ -33,7 +33,7 @@ class DemoBackend implements Backend {
 
   // ---------- Auth ----------
   @override
-  Future<void> sendPhoneCode(String phone) => _delay();
+  Future<void> sendPhoneCode(String phone, {bool whatsapp = false}) => _delay();
 
   @override
   Future<void> verifyPhoneCode(String phone, String code) async {

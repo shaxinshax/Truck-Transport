@@ -94,5 +94,21 @@
   "downloadAll": "Tümünü indir",
   "downloadDriver": "İndir",
   "preparingDownload": "Dosyalar hazırlanıyor…",
-  "downloadSaved": "Kaydedildi"
+  "downloadSaved": "Kaydedildi",
+  "loginWithWhatsapp": "WhatsApp",
+  "loginWithSms": "SMS",
+  "getCodeWhatsapp": "Kodu WhatsApp'tan al",
+  "codeSentWhatsapp": "{phone} numarasına WhatsApp'tan kod gönderdik",
+  "code": "Kod",
+  "setupTitle": "Hızlı kayıt",
+  "stepOf": "Adım {n} / {total}",
+  "stepAboutYou": "Hakkınızda",
+  "stepTruck": "Kamyonunuz",
+  "stepPhotos": "Belge fotoğrafları",
+  "stepPhotosHint": "Her belgenin fotoğrafını telefon kameranızla çekin.",
+  "next": "İleri",
+  "back": "Geri",
+  "skip": "Şimdilik atla",
+  "finish": "Bitir",
+  "setupDoneInfo": "Teşekkürler! Kaydınız incelemeye gönderildi. Daha fazla bilgiyi istediğiniz zaman ekleyebilirsiniz."
 }

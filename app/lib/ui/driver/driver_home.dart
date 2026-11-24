@@ -6,6 +6,7 @@ import '../common.dart';
 import 'documents_screen.dart';
 import 'driver_data.dart';
 import 'profile_screen.dart';
+import 'setup_wizard.dart';
 import 'vehicles_screen.dart';
 
 class DriverHome extends StatefulWidget {
@@ -19,6 +20,9 @@ class DriverHome extends StatefulWidget {
 class _DriverHomeState extends State<DriverHome> {
   late final data = DriverData(widget.user)..load();
   var _tab = 0;
+
+  /// null until data is loaded; true while the first-time quick registration is shown.
+  bool? _setup;
 
   @override
   void dispose() {
@@ -37,6 +41,15 @@ class _DriverHomeState extends State<DriverHome> {
     return ListenableBuilder(
       listenable: data,
       builder: (context, _) {
+        if (_setup == null && !data.loading && data.error == null) {
+          _setup = !data.hasProfile;
+        }
+        if (_setup == true) {
+          return SetupWizard(data: data, onDone: () => setState(() {
+            _setup = false;
+            _tab = 2;
+          }));
+        }
         final wide = MediaQuery.sizeOf(context).width >= 840;
         Widget body;
         if (data.loading && data.driver == null && data.docTypes.isEmpty) {

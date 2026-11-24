@@ -4,7 +4,7 @@ import '../data/backend.dart';
 import '../data/demo_backend.dart';
 import 'common.dart';
 
-enum _Method { phone, email }
+enum _Method { whatsapp, sms, email }
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -19,7 +19,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final _code = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  var _method = _Method.phone;
+  var _method = _Method.whatsapp;
   var _codeSent = false;
   var _signUp = false;
   var _busy = false;
@@ -38,12 +38,14 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
+  bool get _isPhone => _method != _Method.email;
+
   String get _normalizedPhone => _phone.text.replaceAll(RegExp(r'[\s\-()]'), '');
 
   Future<void> _submit() => _run(() async {
-        if (_method == _Method.phone) {
+        if (_isPhone) {
           if (!_codeSent) {
-            await _api.sendPhoneCode(_normalizedPhone);
+            await _api.sendPhoneCode(_normalizedPhone, whatsapp: _method == _Method.whatsapp);
             setState(() => _codeSent = true);
           } else {
             await _api.verifyPhoneCode(_normalizedPhone, _code.text.trim());
@@ -80,22 +82,32 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 28),
                   SegmentedButton<_Method>(
                     segments: [
-                      ButtonSegment(value: _Method.phone, icon: const Icon(Icons.phone_iphone), label: Text(l.loginWithPhone)),
-                      ButtonSegment(value: _Method.email, icon: const Icon(Icons.alternate_email), label: Text(l.loginWithEmail)),
+                      ButtonSegment(value: _Method.whatsapp, label: Text(l.loginWithWhatsapp)),
+                      ButtonSegment(value: _Method.sms, label: Text(l.loginWithSms)),
+                      ButtonSegment(value: _Method.email, label: Text(l.loginWithEmail)),
                     ],
                     selected: {_method},
-                    onSelectionChanged: (s) => setState(() => _method = s.first),
+                    showSelectedIcon: false,
+                    onSelectionChanged: (s) => setState(() {
+                      _method = s.first;
+                      _codeSent = false;
+                      _code.clear();
+                    }),
                   ),
                   const SizedBox(height: 24),
-                  if (_method == _Method.phone) ..._phoneFields(context) else ..._emailFields(context),
+                  if (_isPhone) ..._phoneFields(context) else ..._emailFields(context),
                   const SizedBox(height: 20),
                   FilledButton(
                     onPressed: _busy ? null : _submit,
-                    style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(52)),
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(52),
+                      backgroundColor: _method == _Method.whatsapp ? const Color(0xFF1FA855) : null,
+                      foregroundColor: _method == _Method.whatsapp ? Colors.white : null,
+                    ),
                     child: _busy
                         ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5))
-                        : Text(_method == _Method.phone
-                            ? (_codeSent ? l.verify : l.sendCode)
+                        : Text(_isPhone
+                            ? (_codeSent ? l.verify : (_method == _Method.whatsapp ? l.getCodeWhatsapp : l.sendCode))
                             : (_signUp ? l.signUp : l.signIn)),
                   ),
                   if (_method == _Method.email)
@@ -103,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       onPressed: () => setState(() => _signUp = !_signUp),
                       child: Text(_signUp ? l.haveAccount : l.noAccount),
                     ),
-                  if (_method == _Method.phone && _codeSent)
+                  if (_isPhone && _codeSent)
                     TextButton(
                       onPressed: () => setState(() {
                         _codeSent = false;
@@ -143,14 +155,17 @@ class _AuthScreenState extends State<AuthScreen> {
       ),
       if (_codeSent) ...[
         const SizedBox(height: 12),
-        Text(l.codeSent(_phone.text)),
+        Text(_method == _Method.whatsapp ? l.codeSentWhatsapp(_phone.text) : l.codeSent(_phone.text)),
         const SizedBox(height: 12),
         TextFormField(
           controller: _code,
           autofocus: true,
           keyboardType: TextInputType.number,
           autofillHints: const [AutofillHints.oneTimeCode],
-          decoration: InputDecoration(labelText: l.smsCode, prefixIcon: const Icon(Icons.sms_outlined)),
+          decoration: InputDecoration(
+            labelText: _method == _Method.whatsapp ? l.code : l.smsCode,
+            prefixIcon: Icon(_method == _Method.whatsapp ? Icons.chat : Icons.sms_outlined),
+          ),
           validator: (v) => (v ?? '').trim().length >= 4 ? null : l.required,
           onFieldSubmitted: (_) => _submit(),
         ),
@@ -197,7 +212,7 @@ class _DemoCard extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('Preview mode', style: TextStyle(fontWeight: FontWeight.w700, color: scheme.onTertiaryContainer)),
           const SizedBox(height: 4),
-          Text('Sample data, nothing is saved. Any phone number and any SMS code work.',
+          Text('Sample data, nothing is saved. Any phone number and any code work.',
               style: TextStyle(color: scheme.onTertiaryContainer)),
           const SizedBox(height: 8),
           OutlinedButton.icon(onPressed: onAdmin, icon: const Icon(Icons.admin_panel_settings_outlined), label: const Text('Open the admin panel')),

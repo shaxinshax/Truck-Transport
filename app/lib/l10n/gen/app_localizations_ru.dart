@@ -312,4 +312,58 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get downloadSaved => 'Сохранено';
+
+  @override
+  String get loginWithWhatsapp => 'WhatsApp';
+
+  @override
+  String get loginWithSms => 'SMS';
+
+  @override
+  String get getCodeWhatsapp => 'Получить код в WhatsApp';
+
+  @override
+  String codeSentWhatsapp(String phone) {
+    return 'Мы отправили код на $phone в WhatsApp';
+  }
+
+  @override
+  String get code => 'Код';
+
+  @override
+  String get setupTitle => 'Быстрая регистрация';
+
+  @override
+  String stepOf(int n, int total) {
+    return 'Шаг $n из $total';
+  }
+
+  @override
+  String get stepAboutYou => 'О вас';
+
+  @override
+  String get stepTruck => 'Ваш грузовик';
+
+  @override
+  String get stepPhotos => 'Фото документов';
+
+  @override
+  String get stepPhotosHint =>
+      'Сфотографируйте каждый документ камерой телефона.';
+
+  @override
+  String get next => 'Далее';
+
+  @override
+  String get back => 'Назад';
+
+  @override
+  String get skip => 'Пропустить';
+
+  @override
+  String get finish => 'Готово';
+
+  @override
+  String get setupDoneInfo =>
+      'Спасибо! Ваша регистрация отправлена на проверку. Вы можете добавить данные в любое время.';
 }

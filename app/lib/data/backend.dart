@@ -12,7 +12,8 @@ abstract class Backend {
   bool get isDemo;
 
   // Auth
-  Future<void> sendPhoneCode(String phone);
+  /// [whatsapp] sends the code as a WhatsApp message instead of an SMS.
+  Future<void> sendPhoneCode(String phone, {bool whatsapp = false});
   Future<void> verifyPhoneCode(String phone, String code);
 
   /// Returns true when the user must confirm their email before signing in.

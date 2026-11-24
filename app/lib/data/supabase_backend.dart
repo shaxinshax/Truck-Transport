@@ -44,7 +44,8 @@ class SupabaseBackend implements Backend {
 
   // ---------- Auth ----------
   @override
-  Future<void> sendPhoneCode(String phone) => _db.auth.signInWithOtp(phone: phone);
+  Future<void> sendPhoneCode(String phone, {bool whatsapp = false}) =>
+      _db.auth.signInWithOtp(phone: phone, channel: whatsapp ? OtpChannel.whatsapp : OtpChannel.sms);
 
   @override
   Future<void> verifyPhoneCode(String phone, String code) async {

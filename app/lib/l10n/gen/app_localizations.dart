@@ -671,6 +671,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved'**
   String get downloadSaved;
+
+  /// No description provided for @loginWithWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get loginWithWhatsapp;
+
+  /// No description provided for @loginWithSms.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS'**
+  String get loginWithSms;
+
+  /// No description provided for @getCodeWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Get code on WhatsApp'**
+  String get getCodeWhatsapp;
+
+  /// No description provided for @codeSentWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a code to {phone} on WhatsApp'**
+  String codeSentWhatsapp(String phone);
+
+  /// No description provided for @code.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get code;
+
+  /// No description provided for @setupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick registration'**
+  String get setupTitle;
+
+  /// No description provided for @stepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {n} of {total}'**
+  String stepOf(int n, int total);
+
+  /// No description provided for @stepAboutYou.
+  ///
+  /// In en, this message translates to:
+  /// **'About you'**
+  String get stepAboutYou;
+
+  /// No description provided for @stepTruck.
+  ///
+  /// In en, this message translates to:
+  /// **'Your truck'**
+  String get stepTruck;
+
+  /// No description provided for @stepPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Document photos'**
+  String get stepPhotos;
+
+  /// No description provided for @stepPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo of each document with your phone camera.'**
+  String get stepPhotosHint;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get skip;
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// No description provided for @setupDoneInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you! Your registration was sent for review. You can add more details any time.'**
+  String get setupDoneInfo;
 }
 
 class _AppLocalizationsDelegate

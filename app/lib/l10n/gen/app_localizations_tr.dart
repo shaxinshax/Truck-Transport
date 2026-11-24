@@ -310,4 +310,58 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get downloadSaved => 'Kaydedildi';
+
+  @override
+  String get loginWithWhatsapp => 'WhatsApp';
+
+  @override
+  String get loginWithSms => 'SMS';
+
+  @override
+  String get getCodeWhatsapp => 'Kodu WhatsApp\'tan al';
+
+  @override
+  String codeSentWhatsapp(String phone) {
+    return '$phone numarasına WhatsApp\'tan kod gönderdik';
+  }
+
+  @override
+  String get code => 'Kod';
+
+  @override
+  String get setupTitle => 'Hızlı kayıt';
+
+  @override
+  String stepOf(int n, int total) {
+    return 'Adım $n / $total';
+  }
+
+  @override
+  String get stepAboutYou => 'Hakkınızda';
+
+  @override
+  String get stepTruck => 'Kamyonunuz';
+
+  @override
+  String get stepPhotos => 'Belge fotoğrafları';
+
+  @override
+  String get stepPhotosHint =>
+      'Her belgenin fotoğrafını telefon kameranızla çekin.';
+
+  @override
+  String get next => 'İleri';
+
+  @override
+  String get back => 'Geri';
+
+  @override
+  String get skip => 'Şimdilik atla';
+
+  @override
+  String get finish => 'Bitir';
+
+  @override
+  String get setupDoneInfo =>
+      'Teşekkürler! Kaydınız incelemeye gönderildi. Daha fazla bilgiyi istediğiniz zaman ekleyebilirsiniz.';
 }

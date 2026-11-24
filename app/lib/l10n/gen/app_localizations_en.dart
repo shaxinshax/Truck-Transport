@@ -311,4 +311,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadSaved => 'Saved';
+
+  @override
+  String get loginWithWhatsapp => 'WhatsApp';
+
+  @override
+  String get loginWithSms => 'SMS';
+
+  @override
+  String get getCodeWhatsapp => 'Get code on WhatsApp';
+
+  @override
+  String codeSentWhatsapp(String phone) {
+    return 'We sent a code to $phone on WhatsApp';
+  }
+
+  @override
+  String get code => 'Code';
+
+  @override
+  String get setupTitle => 'Quick registration';
+
+  @override
+  String stepOf(int n, int total) {
+    return 'Step $n of $total';
+  }
+
+  @override
+  String get stepAboutYou => 'About you';
+
+  @override
+  String get stepTruck => 'Your truck';
+
+  @override
+  String get stepPhotos => 'Document photos';
+
+  @override
+  String get stepPhotosHint =>
+      'Take a photo of each document with your phone camera.';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get skip => 'Skip for now';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get setupDoneInfo =>
+      'Thank you! Your registration was sent for review. You can add more details any time.';
 }

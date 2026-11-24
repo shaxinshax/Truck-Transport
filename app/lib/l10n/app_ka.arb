@@ -94,5 +94,21 @@
   "downloadAll": "ყველაფრის ჩამოტვირთვა",
   "downloadDriver": "ჩამოტვირთვა",
   "preparingDownload": "ფაილების მომზადება…",
-  "downloadSaved": "შენახულია"
+  "downloadSaved": "შენახულია",
+  "loginWithWhatsapp": "WhatsApp",
+  "loginWithSms": "SMS",
+  "getCodeWhatsapp": "კოდის მიღება WhatsApp-ზე",
+  "codeSentWhatsapp": "კოდი გამოგზავნილია WhatsApp-ზე ნომერზე {phone}",
+  "code": "კოდი",
+  "setupTitle": "სწრაფი რეგისტრაცია",
+  "stepOf": "ნაბიჯი {n} / {total}",
+  "stepAboutYou": "თქვენ შესახებ",
+  "stepTruck": "თქვენი სატვირთო",
+  "stepPhotos": "დოკუმენტების ფოტოები",
+  "stepPhotosHint": "გადაუღეთ ფოტო თითოეულ დოკუმენტს ტელეფონის კამერით.",
+  "next": "შემდეგი",
+  "back": "უკან",
+  "skip": "გამოტოვება",
+  "finish": "დასრულება",
+  "setupDoneInfo": "გმადლობთ! თქვენი რეგისტრაცია გაიგზავნა შესამოწმებლად. დამატებითი ინფორმაციის შეყვანა ნებისმიერ დროს შეგიძლიათ."
 }

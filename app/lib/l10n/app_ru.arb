@@ -94,5 +94,21 @@
   "downloadAll": "Скачать всё",
   "downloadDriver": "Скачать",
   "preparingDownload": "Подготовка файлов…",
-  "downloadSaved": "Сохранено"
+  "downloadSaved": "Сохранено",
+  "loginWithWhatsapp": "WhatsApp",
+  "loginWithSms": "SMS",
+  "getCodeWhatsapp": "Получить код в WhatsApp",
+  "codeSentWhatsapp": "Мы отправили код на {phone} в WhatsApp",
+  "code": "Код",
+  "setupTitle": "Быстрая регистрация",
+  "stepOf": "Шаг {n} из {total}",
+  "stepAboutYou": "О вас",
+  "stepTruck": "Ваш грузовик",
+  "stepPhotos": "Фото документов",
+  "stepPhotosHint": "Сфотографируйте каждый документ камерой телефона.",
+  "next": "Далее",
+  "back": "Назад",
+  "skip": "Пропустить",
+  "finish": "Готово",
+  "setupDoneInfo": "Спасибо! Ваша регистрация отправлена на проверку. Вы можете добавить данные в любое время."
 }
