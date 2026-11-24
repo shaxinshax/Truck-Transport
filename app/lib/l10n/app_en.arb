@@ -118,5 +118,9 @@
       }
     }
   },
-  "edit": "Edit"
+  "edit": "Edit",
+  "downloadAll": "Download all",
+  "downloadDriver": "Download",
+  "preparingDownload": "Preparing files…",
+  "downloadSaved": "Saved"
 }

@@ -90,5 +90,9 @@
   "noDrivers": "Водители не найдены",
   "registeredOn": "Зарегистрирован {date}",
   "notConfigured": "Приложение ещё не подключено к серверу. Запустите его с SUPABASE_URL и SUPABASE_ANON_KEY.",
-  "edit": "Изменить"
+  "edit": "Изменить",
+  "downloadAll": "Скачать всё",
+  "downloadDriver": "Скачать",
+  "preparingDownload": "Подготовка файлов…",
+  "downloadSaved": "Сохранено"
 }

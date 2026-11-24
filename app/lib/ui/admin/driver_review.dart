@@ -156,6 +156,11 @@ class _DriverReviewState extends State<DriverReview> {
           icon: const Icon(Icons.close),
           label: Text(l.reject),
         ),
+        OutlinedButton.icon(
+          onPressed: () => downloadDriverData(context, driverIds: [widget.driverId], name: name.replaceAll(' ', '_')),
+          icon: const Icon(Icons.download),
+          label: Text(l.downloadDriver),
+        ),
       ]),
       SectionTitle(l.personalInfo),
       info(l.dateOfBirth, dateText(d['date_of_birth'])),

@@ -90,5 +90,9 @@
   "noDrivers": "Sürücü bulunamadı",
   "registeredOn": "Kayıt tarihi {date}",
   "notConfigured": "Uygulama henüz bir sunucuya bağlı değil. SUPABASE_URL ve SUPABASE_ANON_KEY ile başlatın.",
-  "edit": "Düzenle"
+  "edit": "Düzenle",
+  "downloadAll": "Tümünü indir",
+  "downloadDriver": "İndir",
+  "preparingDownload": "Dosyalar hazırlanıyor…",
+  "downloadSaved": "Kaydedildi"
 }

@@ -53,6 +53,20 @@ class _AdminHomeState extends State<AdminHome> {
       appBar: AppBar(
         title: Text(l.admin),
         actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: wide
+                ? FilledButton.icon(
+                    onPressed: () => downloadDriverData(context),
+                    icon: const Icon(Icons.download),
+                    label: Text(l.downloadAll),
+                  )
+                : IconButton.filled(
+                    tooltip: l.downloadAll,
+                    onPressed: () => downloadDriverData(context),
+                    icon: const Icon(Icons.download),
+                  ),
+          ),
           const LanguageMenu(),
           IconButton(tooltip: l.logout, onPressed: Backend.instance.signOut, icon: const Icon(Icons.logout)),
         ],

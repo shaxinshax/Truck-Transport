@@ -299,4 +299,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get edit => 'Edit';
+
+  @override
+  String get downloadAll => 'Download all';
+
+  @override
+  String get downloadDriver => 'Download';
+
+  @override
+  String get preparingDownload => 'Preparing files…';
+
+  @override
+  String get downloadSaved => 'Saved';
 }

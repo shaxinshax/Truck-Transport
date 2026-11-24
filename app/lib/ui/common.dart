@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart' hide PickedFile;
 import 'package:material_ui/material_ui.dart';
 
 import '../data/backend.dart';
+import '../data/export.dart';
 import '../data/models.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'locale_controller.dart';
@@ -185,4 +186,35 @@ String? dateText(Object? iso) {
   final d = DateTime.tryParse(iso.toString());
   if (d == null) return null;
   return '${d.day.toString().padLeft(2, '0')}.${d.month.toString().padLeft(2, '0')}.${d.year}';
+}
+
+/// Builds the driver export (ZIP with Excel + photos) and lets the admin save it.
+Future<void> downloadDriverData(BuildContext context, {List<String>? driverIds, String? name}) async {
+  final l = context.l10n;
+  final progress = ValueNotifier<double>(0);
+  showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => AlertDialog(
+      content: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text(l.preparingDownload),
+        const SizedBox(height: 16),
+        ValueListenableBuilder(valueListenable: progress, builder: (_, v, _) => LinearProgressIndicator(value: v)),
+      ]),
+    ),
+  );
+  try {
+    final bytes = await DriverExport(l, context.lang).build(driverIds: driverIds, onProgress: (v) => progress.value = v);
+    if (context.mounted) Navigator.of(context, rootNavigator: true).pop();
+    final file = '${name == null ? DriverExport.folderName() : '${DriverExport.folderName()}_$name'}.zip';
+    final saved = await FilePicker.saveFile(fileName: file, bytes: bytes, mimeType: 'application/zip');
+    if (saved != null && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${l.downloadSaved}: $file')));
+    }
+  } catch (e) {
+    if (context.mounted) {
+      Navigator.of(context, rootNavigator: true).maybePop();
+      showError(context, e);
+    }
+  }
 }

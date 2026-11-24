@@ -42,6 +42,8 @@ dependencies:
   intl: ^0.20.3
   flutter_localizations:
     sdk: flutter
+  archive: ^3.6.1
+  excel: ^4.0.6
 
 dev_dependencies:
   flutter_test:

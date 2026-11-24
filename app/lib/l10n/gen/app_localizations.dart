@@ -647,6 +647,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit'**
   String get edit;
+
+  /// No description provided for @downloadAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Download all'**
+  String get downloadAll;
+
+  /// No description provided for @downloadDriver.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get downloadDriver;
+
+  /// No description provided for @preparingDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing files…'**
+  String get preparingDownload;
+
+  /// No description provided for @downloadSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get downloadSaved;
 }
 
 class _AppLocalizationsDelegate

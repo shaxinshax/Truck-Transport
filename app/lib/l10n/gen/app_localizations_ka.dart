@@ -298,4 +298,16 @@ class AppLocalizationsKa extends AppLocalizations {
 
   @override
   String get edit => 'რედაქტირება';
+
+  @override
+  String get downloadAll => 'ყველაფრის ჩამოტვირთვა';
+
+  @override
+  String get downloadDriver => 'ჩამოტვირთვა';
+
+  @override
+  String get preparingDownload => 'ფაილების მომზადება…';
+
+  @override
+  String get downloadSaved => 'შენახულია';
 }

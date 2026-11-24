@@ -90,5 +90,9 @@
   "noDrivers": "მძღოლები ვერ მოიძებნა",
   "registeredOn": "დარეგისტრირდა {date}",
   "notConfigured": "აპლიკაცია ჯერ არ არის სერვერთან დაკავშირებული. გაუშვით SUPABASE_URL და SUPABASE_ANON_KEY პარამეტრებით.",
-  "edit": "რედაქტირება"
+  "edit": "რედაქტირება",
+  "downloadAll": "ყველაფრის ჩამოტვირთვა",
+  "downloadDriver": "ჩამოტვირთვა",
+  "preparingDownload": "ფაილების მომზადება…",
+  "downloadSaved": "შენახულია"
 }

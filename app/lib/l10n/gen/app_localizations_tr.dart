@@ -298,4 +298,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get edit => 'Düzenle';
+
+  @override
+  String get downloadAll => 'Tümünü indir';
+
+  @override
+  String get downloadDriver => 'İndir';
+
+  @override
+  String get preparingDownload => 'Dosyalar hazırlanıyor…';
+
+  @override
+  String get downloadSaved => 'Kaydedildi';
 }

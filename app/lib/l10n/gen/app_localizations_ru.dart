@@ -300,4 +300,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get edit => 'Изменить';
+
+  @override
+  String get downloadAll => 'Скачать всё';
+
+  @override
+  String get downloadDriver => 'Скачать';
+
+  @override
+  String get preparingDownload => 'Подготовка файлов…';
+
+  @override
+  String get downloadSaved => 'Сохранено';
 }
