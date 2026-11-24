@@ -24,17 +24,22 @@ def shear(L, k=-0.18):
 def speedlines(d, x0=60, y=300, accent=ORANGE):
     for i,(ln,col) in enumerate([(150,W),(110,accent),(70,W)]):
         yy=y+i*70; d.rounded_rectangle(sc(x0+(150-ln),yy,x0+150,yy+34),17*K,fill=col)
-def truck(d, hole, dx=-16, y=700):
-    from PIL import ImageDraw as D
+def truck(d, hole, dx=0, y=690):
+    """Modern semi-truck: aerodynamic cab with roof fairing, smooth trailer with side skirt."""
     def P(pts): return [((x+dx)*K,yy*K) for x,yy in pts]
     s=lambda x0,y0,x1,y1:[(x0+dx)*K,y0*K,(x1+dx)*K,y1*K]
-    d.rounded_rectangle(s(300,y,598,y+130),6*K,fill=W)
-    d.polygon(P([(612,y+4),(690,y+4),(732,y+60),(740,y+64),(740,y+130),(612,y+130)]),fill=W)
-    d.polygon(P([(628,y+18),(683,y+18),(716,y+60),(628,y+60)]),fill=hole)
-    d.rectangle(s(626,y+70,629,y+120),fill=hole); d.rectangle(s(722,y+90,740,y+104),fill=hole)
-    d.rectangle(s(736,y+112,752,y+130),fill=W)
-    for x in (358,446,536,686):
-        d.ellipse(s(x-42,y+100,x+42,y+184),fill=hole); d.ellipse(s(x-36,y+106,x+36,y+178),fill=W); d.ellipse(s(x-11,y+131,x+11,y+153),fill=hole)
+    d.rounded_rectangle(s(262,y,612,y+132),14*K,fill=W)                       # trailer
+    d.polygon(P([(300,y+96),(560,y+96),(548,y+106),(300,y+106)]),fill=ORANGE) # livery stripe
+    d.polygon(P([(410,y+136),(560,y+136),(552,y+156),(418,y+156)]),fill=W)    # side skirt
+    d.polygon(P([(618,y),(668,y),(712,y+40),(744,y+66),(758,y+80),(762,y+142),(618,y+142)]),fill=W)  # cab + roof fairing
+    d.polygon(P([(678,y+46),(706,y+46),(738,y+74),(678,y+74)]),fill=hole)    # side window
+    d.rectangle(s(672,y+84,675,y+132),fill=hole)                               # door line
+    d.polygon(P([(744,y+100),(762,y+100),(762,y+110),(744,y+112)]),fill=hole) # LED headlight
+    d.rectangle(s(612,y+60,618,y+120),fill=hole)                               # trailer/cab gap
+    for x in (300,372,640,722):
+        d.ellipse(s(x-40,y+108,x+40,y+188),fill=hole)
+        d.ellipse(s(x-34,y+114,x+34,y+182),fill=W)
+        d.ellipse(s(x-11,y+137,x+11,y+159),fill=hole)
 
 def option_a(bg=True):
     im,d=canvas(bg); hole=BLUE if bg else (0,0,0,0)
